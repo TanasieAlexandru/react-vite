@@ -1,0 +1,21 @@
+$text-color: #45dc90;
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: $text-color;
+	background-color: #282c34;
+	ul {
+		text-align: start;
+		li a:-webkit-any-link {
+			color: $text-color;
+			text-align: start;
+		}
+	}
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
