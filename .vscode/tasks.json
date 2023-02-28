@@ -31,3 +31,857 @@
 		}
 	]
 }
+/*
+EasyTrack Task
+{
+	"version": "2.0.0",
+	"windows": {
+		"options": {
+			"shell": {
+				"executable": "cmd.exe",
+				"args": ["/d", "/c"]
+			}
+		}
+	},
+	"tasks": [
+		{
+			"label": "TaskBeforeAttach",
+			"type": "shell",
+			"dependsOn": [
+				"Terminate All Tasks",
+				"Stop all iis sites",
+				"Build Portal",
+				"Build Identity",
+				"Build Live Data",
+				"Start All Services"
+			],
+			"dependsOrder": "sequence",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Start All Services",
+			"type": "shell",
+			"dependsOn": ["Start Identity Service", "Start Live Data Service", "Start Portal"],
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Identity Service",
+			"type": "shell",
+			"command": "D:\\EasyTrack\\StartIdentity.bat",
+			"presentation": {
+				"reveal": "silent",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": "Enter 'Q' to stop IIS Express*"
+				}
+			}
+		},
+		{
+			"label": "Start Live Data Service",
+			"type": "shell",
+			"command": "D:\\EasyTrack\\StartLiveData.bat",
+			"presentation": {
+				"reveal": "silent",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": "Enter 'Q' to stop IIS Express*"
+				}
+			}
+		},
+		{
+			"label": "Start Portal",
+			"type": "shell",
+			"command": "D:\\EasyTrack\\StartPortal.bat",
+			"presentation": {
+				"reveal": "silent",
+				"panel": "dedicated"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": "Enter 'Q' to stop IIS Express*"
+				}
+			}
+		},
+		{
+			"label": "Build Portal",
+			"command": "dotnet build D:\\EasyTrack\\Portal\\EasyTrack2.0\\EasyTrack.Portal -c Debug",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Identity",
+			"command": "dotnet build D:\\EasyTrack\\Portal\\EasyTrack2.0\\EasyTrack.IdentityServer -c Debug",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Live Data",
+			"command": "dotnet build D:\\EasyTrack\\Portal\\EasyTrack2.0\\EasyTrack.LiveDataService -c Debug",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "Publish all services",
+			"dependsOn": [
+				"Stop debugger",
+				"Terminate All Tasks",
+				"Stop all iis sites",
+				"Publish Portal",
+				"Publish IdentityServer",
+				"Publish LiveDataService",
+				"Start all iis sites"
+			],
+			"dependsOrder": "sequence",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Terminate All Tasks",
+			"command": "${input:terminate}",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Start all iis sites",
+			"command": "\"D:\\Power Shell scripts\\IIS_Start_all_websites.lnk\"",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Publish IdentityServer",
+			"command": "dotnet build D:\\EasyTrack\\Portal\\EasyTrack2.0\\EasyTrack.IdentityServer -c Debug /p:DeployOnBuild=true /p:PublishProfile=FolderProfile",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Publish LiveDataService",
+			"command": "dotnet build D:\\EasyTrack\\Portal\\EasyTrack2.0\\EasyTrack.LiveDataService -c Debug /p:DeployOnBuild=true /p:PublishProfile=FolderProfile",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Publish Portal",
+			"command": "dotnet build D:\\EasyTrack\\Portal\\EasyTrack2.0\\EasyTrack.Portal -c Debug /p:DeployOnBuild=true /p:PublishProfile=FolderProfile",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Stop all iis sites",
+			"command": "\"D:\\Power Shell scripts\\IIS_Stop_all_websites.lnk\"",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Kill Node Processes",
+			"command": "taskkill /im node.exe /F",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Stop debugger",
+			"command": "${input:stopDebug}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Start debugger",
+			"command": "${input:startDebug}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Restart debugger",
+			"command": "${input:restartDebug}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Delete all red branches",
+			"command": "git branch --merged | %{$_.trim()}  | ?{$_ -notmatch 'develop' -and $_ -notmatch 'master'} | %{git branch -d $_}",
+			"type": "shell",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Clear all stashes",
+			"command": "git stash clear",
+			"type": "shell",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Use local DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env portal -DataBase local",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use test1 DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env portal -DataBase test1",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use test2 DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env portal -DataBase test2",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use test3 DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env portal -DataBase test3",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use stage DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env portal -DataBase stage",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "terminateAll"
+		},
+		{
+			"id": "restartDebug",
+			"type": "command",
+			"command": "workbench.action.debug.restart"
+		},
+		{
+			"id": "startDebug",
+			"type": "command",
+			"command": "workbench.action.debug.start"
+		},
+		{
+			"id": "stopDebug",
+			"type": "command",
+			"command": "workbench.action.debug.stop"
+		}
+	]
+}
+*/
+
+/*
+Easytrack mobile tasks
+{
+	"version": "2.0.0",
+	"windows": {
+		"options": {
+			"shell": {
+				"executable": "cmd.exe",
+				"args": ["/d", "/c"]
+			}
+		}
+	},
+	"tasks": [
+		{
+			"label": "Stop all iis sites",
+			"command": "\"D:\\Power Shell scripts\\IIS_Stop_all_websites.lnk\"",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "tsc watch",
+			"type": "shell",
+			"command": "call",
+			"isBackground": true,
+			"args": ["node_modules/.bin/tsc", "--watch", "--noEmit", "--project", "${cwd}"],
+			"presentation": {
+				"reveal": "never",
+				"echo": false,
+				"focus": false,
+				"panel": "dedicated"
+			},
+			"problemMatcher": "$tsc-watch"
+		},
+		{
+			"label": "Build task",
+			"dependsOn": ["Terminate Packager with esc press", "startPackagerBackgorund", "Attach and reload"],
+			"dependsOrder": "sequence",
+			"problemMatcher": []
+		},
+		{
+			"label": "CloseEmulator",
+			"command": "C:\\Users\\v.a.tanasie\\Desktop\\RunCloseEmulatorAsAdmin.ahk",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "taskBeforeAttach",
+			"dependsOn": [
+				"Terminate All Tasks",
+				"Start all iis sites",
+				"startEmulatorBackgorund",
+				"startPackagerBackgorund"
+				//"Login to app with delay background task",
+				//"focus previous terminal"
+			],
+			"dependsOrder": "sequence",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "View git credentials(name and email)",
+			"command": "git config --global user.name&& git config --global user.email",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "Chnage git credentials(name and email)",
+			"command": "git config --global user.name \"${input:userName}\"&& git config --global user.email \"${input:userEmail}\"",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Terminate All Tasks",
+			"command": "${input:terminate}",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Terminate Packager with esc press",
+			"dependsOn": ["Terminate Packager", "Press esc button task"],
+			"dependsOrder": "sequence",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Terminate Packager",
+			"command": "${input:terminatePackager}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Terminate Emulator",
+			"command": "${input:terminateEmulator}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Press esc button task",
+			"command": "$(New-Object -ComObject WScript.Shell).SendKeys('{ESC}')",
+			"type": "shell",
+			"presentation": {
+				"echo": false,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "startEmulatorBackgorund",
+			//"command": "%ANDROID_HOME%\\emulator\\emulator -avd Pixel_2_API_29",
+			"command": "%ANDROID_HOME%\\emulator\\emulator -avd Pixel_2_API_29 -snapshot snap_2022-07-07_19-40-43",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					//"endsPattern": "emulator: Revoking microphone permissions for Googl*"
+					"endsPattern": "Started GRPC server*"
+				}
+			}
+		},
+		{
+			"type": "shell",
+			"label": "startEmulatorBackgorundWithouthSnapshot",
+			"command": "%ANDROID_HOME%\\emulator\\emulator -avd Pixel_2_API_29",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": "emulator: Revoking microphone permissions for Googl*"
+				}
+			}
+		},
+		{
+			"type": "npm",
+			"script": "android",
+			"label": "startPackagerBackgorund",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "always"
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					//"endsPattern": "Opening exp://192.168.169.81:19000 on Pixel_2_API_29 *"
+					//"endsPattern": "Press ? to show a list of all available*"
+					"endsPattern": "Starting Metro Bundler*"
+				}
+			}
+		},
+		{
+			"label": "Start all iis sites",
+			"command": "\"D:\\Power Shell scripts\\IIS_Start_all_websites.lnk\"",
+			"type": "shell",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "Publish",
+			"dependsOn": [
+				"Terminate All Tasks",
+				"Change config to test",
+				"Publish to expo",
+				"Change config to dev"
+				//"restart debugger"
+			],
+			"dependsOrder": "sequence",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "restart debugger",
+			"command": "${input:restartDebug}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "focus next terminal",
+			"command": "${input:focusNextTerminal}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "focus previous terminal",
+			"command": "${input:focusPreviousTerminal}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Publish to expo",
+			"type": "shell",
+			"command": "expo publish",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "always"
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": "Publish complete*"
+				}
+			}
+		},
+		{
+			"label": "Change config to test",
+			"command": "((Get-Content -path Settings\\Config.ts -Raw) -replace '//...TEST','...TEST') | Set-Content -Path Settings\\Config.ts",
+			"type": "shell",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "always"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Change config to dev",
+			"command": "((Get-Content -path Settings\\Config.ts -Raw) -replace '...TEST,','//...TEST,') | Set-Content -Path Settings\\Config.ts",
+			"type": "shell",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "always"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Echo task",
+			"command": "echo task",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Test login to app task",
+			"command": "echo asd",
+			"dependsOn": "Sleep 5",
+			"dependsOrder": "sequence",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Login to app with delay background task",
+			"command": "ping 127.0.0.1 -n 60 > nul&& adb shell \"input keyevent 'KEYCODE_TAB';input text 'AdminOem_rietveld';input keyevent 'KEYCODE_ENTER';input text 'AdminOem_rietveld';input keyevent 'KEYCODE_ENTER'\"",
+			"presentation": {
+				"reveal": "always"
+			},
+			"type": "shell",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$"
+				},
+				"background": {
+					"beginsPattern": ".*",
+					"endsPattern": ".*"
+				}
+			}
+		},
+		{
+			"label": "Login to app with oem",
+			"command": "adb shell \"input keyevent 'KEYCODE_TAB';input text 'AdminOem_rietveld';input keyevent 'KEYCODE_ENTER';input text 'AdminOem_rietveld!';input keyevent 'KEYCODE_ENTER'\"",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Login to app with stefania",
+			"command": "adb shell \"input keyevent 'KEYCODE_TAB';input text 'StefaniaTest';input keyevent 'KEYCODE_ENTER';input text 'StefaniaTest';input keyevent 'KEYCODE_ENTER'\"",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Reload app",
+			"command": "adb shell input text \"RR\"",
+			"dependsOn": "Sleep 5",
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Sleep 5",
+			"command": "ping 127.0.0.1 -n 5 > nul",
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Attach and reload",
+			"dependsOn": ["restart debugger", "Reload app"],
+			"problemMatcher": []
+		},
+		{
+			"label": "Use local DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env mobile -DataBase local",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use test1 DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env mobile -DataBase test1",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use test2 DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env mobile -DataBase test2",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Use test3 DB",
+			"command": "\"D:\\Power Shell scripts\\EasyTrackChangeDB.ps1\" -Env mobile -DataBase test3",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": ["-File"]
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"label": "Delete all red branches",
+			"command": "git branch --merged | %{$_.trim()}  | ?{$_ -notmatch 'develop' -and $_ -notmatch 'master'} | %{git branch -d $_}",
+			"type": "shell",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": []
+					}
+				}
+			},
+			"problemMatcher": []
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "terminateAll"
+		},
+		{
+			"id": "terminateEmulator",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "startEmulatorBackgorund"
+		},
+		{
+			"id": "terminatePackager",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "startPackagerBackgorund"
+		},
+		{
+			"id": "restartDebug",
+			"type": "command",
+			"command": "workbench.action.debug.restart"
+		},
+		{
+			"id": "startDebug",
+			"type": "command",
+			"command": "workbench.action.debug.start"
+		},
+		{
+			"id": "focusNextTerminal",
+			"type": "command",
+			"command": "workbench.action.terminal.focusNext"
+		},
+		{
+			"id": "focusPreviousTerminal",
+			"type": "command",
+			"command": "workbench.action.terminal.focusPrevious"
+		},
+		{
+			"id": "userName",
+			"type": "promptString",
+			"description": "Chose a user name"
+		},
+		{
+			"id": "userEmail",
+			"type": "promptString",
+			"description": "Chose a user email"
+		}
+	]
+}
+*/
