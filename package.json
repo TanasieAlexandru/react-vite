@@ -10,11 +10,6 @@
 		"deploy": "npm run build && copy dist\\index.html dist\\200.html && surge dist https://my-react-vite-ts-tva.surge.sh"
 	},
 	"dependencies": {
-		"@typescript-eslint/eslint-plugin": "^5.50.0",
-		"eslint-config-prettier": "^8.6.0",
-		"eslint-plugin-import": "^2.27.5",
-		"eslint-plugin-prettier": "^4.2.1",
-		"eslint-plugin-react": "^7.32.2",
 		"jotai": "^2.0.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -24,7 +19,13 @@
 	"devDependencies": {
 		"@types/react": "^18.0.27",
 		"@types/react-dom": "^18.0.10",
+		"@typescript-eslint/eslint-plugin": "^5.60.0",
 		"@vitejs/plugin-react-swc": "^3.0.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-react": "^7.32.2",
+		"eslint-plugin-react-hooks": "^4.6.0",
 		"typescript": "^4.9.3",
 		"vite": "^4.1.0"
 	}

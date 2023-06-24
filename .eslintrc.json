@@ -8,7 +8,8 @@
 		"plugin:@typescript-eslint/eslint-recommended",
 		"plugin:@typescript-eslint/recommended",
 		"prettier",
-		"plugin:prettier/recommended"
+		"plugin:prettier/recommended",
+		"plugin:react-hooks/recommended"
 	],
 	"plugins": ["import", "react", "prettier", "@typescript-eslint", "react-hooks"],
 
@@ -23,6 +24,11 @@
 			"react": {
 				"version": "detect"
 			}
+		}
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
 		}
 	},
 	"rules": {
@@ -46,6 +52,7 @@
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"no-prototype-builtins": "off",
 		"no-console": "off",
+		"react/react-in-jsx-scope": "off",
 
 		"curly": ["warn", "all"],
 		"semi": "off",
@@ -152,9 +159,7 @@
 				"enforceForArrowConditionals": true,
 				"enforceForSequenceExpressions": true
 			}
-		],
-		"react-hooks/rules-of-hooks": "warn",
-		"react-hooks/exhaustive-deps": "off"
+		]
 		/*
 		"@typescript-eslint/typedef": [
 			"warn",
